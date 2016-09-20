@@ -2,7 +2,8 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - role: ntd.nut
+    # ansible-role-nut is the name of the ntd.nut role when uninstalled
+    - role: ansible-role-nut
       nut_enable_service: false
       nut_ups:
         - name: riello
