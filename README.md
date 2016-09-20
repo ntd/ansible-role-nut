@@ -1,12 +1,14 @@
-# README.md
-# Ansible Role: NUT
+Ansible Role: NUT
+=================
 
 Installs and configures [NUT](http://networkupstools.org/) (Nework UPS
 tools) on Debian based platforms.
 
-## Role Variables
+Role Variables
+--------------
 
-Available variables are listed below, along with default values (see `defaults/main.yml`):
+Available variables are listed below, along with default values (see
+`defaults/main.yml`):
 
     nut_managed_config: true
 
@@ -43,7 +45,8 @@ version installed on your server has that specific driver available.
 `device` is device where the UPS is listening (typically an USB port or
 a serial device).
 
-## Example Playbook
+Example Playbook
+----------------
 
     - hosts: all
       roles:
@@ -54,6 +57,12 @@ a serial device).
             device: /dev/ups
             description: iPlug 800
 
-## License
+License
+-------
 
 MIT
+
+Author Information
+------------------
+
+This role was created in 2016 by Nicola Fontana (ntd@entidi.it).
