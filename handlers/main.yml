@@ -1,0 +1,3 @@
+---
+- name: restart nut
+  service: name=nut-driver state=restarted

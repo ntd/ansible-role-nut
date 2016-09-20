@@ -1,0 +1,18 @@
+---
+# If this is set to false, none of the following options will have any effect.
+# Any and all changes to /etc/nut/* will be your responsibility.
+nut_managed_config: true
+
+nut_host: localhost
+nut_user: monitor
+nut_password: Whatever...
+nut_maxretry: 3
+
+# This is only an example: you must set this to match your hardware.
+nut_ups:
+  - name: UPS
+    # Specify a driver that supports your UPS. See
+    # http://networkupstools.org/stable-hcl.html
+    driver: riello_ups
+    device: /dev/ttyUSB0
+    description: Some descriptive information

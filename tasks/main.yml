@@ -1,0 +1,30 @@
+---
+
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Define nut_packages.
+  set_fact:
+    nut_packages: "{{ __nut_packages | list }}"
+  when: nut_packages is not defined
+
+- name: Ensure NUT packages are installed.
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ nut_packages }}"
+
+- name: Install NUT configuration files.
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/nut/{{ item }}"
+    owner: root
+    group: nut
+    mode: 0640
+  with_items:
+    - nut.conf
+    - ups.conf
+    - upsd.users
+    - upsmon.conf
+  notify: restart nut
+  when: nut_managed_config

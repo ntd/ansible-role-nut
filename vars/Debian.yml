@@ -1,0 +1,5 @@
+---
+__nut_packages:
+  - nut-client
+  - nut-server
+  - nut-monitor
