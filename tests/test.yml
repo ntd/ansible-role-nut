@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - role: ntd.nut
+      nut_enable_service: false
+      nut_ups:
+        - name: riello
+          driver: riello_usb
+          device: /dev/ups
+          description: iPlug 800
