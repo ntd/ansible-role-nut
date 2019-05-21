@@ -3,7 +3,7 @@ galaxy_info:
   author: Nicola Fontana
   description: Network UPS Tools (nut) for Debian.
   company: eNTiDi software
-  license: BSD
+  license: MIT
   min_ansible_version: 2.0
   platforms:
     - name: Debian
