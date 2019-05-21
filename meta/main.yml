@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   author: Nicola Fontana
+  role_name: nut
   description: Network UPS Tools (nut) for Debian.
   company: eNTiDi software
   license: MIT
