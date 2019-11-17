@@ -1,21 +1,45 @@
 ---
+Ansible_managed: This file is managed by ansible
 # Whether to start or not the NUT service after the configuration
 nut_enable_service: true
 
-# If this is set to false, none of the following options will have any effect.
-# Any and all changes to /etc/nut/* will be your responsibility.
-nut_managed_config: true
 
+
+# Client side
 nut_host: localhost
-nut_user: monitor
-nut_password: Whatever...
+
+nut_role: master
+nut_powervalue: 1
+
+# Server side config
+NutS_mode: standalone
+nut_interface:
+  - interface: 127.0.0.1
+    port: 3493
+  - interface: ::1
+    port: 3493
+
 nut_maxretry: 3
 
-# This is only an example: you must set this to match your hardware.
+# shared
+
+nut_user: admin
+nut_password: password
+
 nut_ups:
   - name: UPS
     # Specify a driver that supports your UPS. See
     # http://networkupstools.org/stable-hcl.html
-    driver: riello_ups
-    device: /dev/ttyUSB0
+    driver: usbhid-ups
+    device: auto
     description: Some descriptive information
+
+# other vaiables for nut_ups:
+# nut_ups:
+#  snmp_version
+#  pollfreq
+#  community
+#  secLevel
+#  secName
+#  authPassword
+#  privPassword

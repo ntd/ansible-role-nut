@@ -25,6 +25,6 @@
     - nut.conf
     - ups.conf
     - upsd.users
+    - upsd.conf
     - upsmon.conf
   notify: restart nut
-  when: nut_managed_config
