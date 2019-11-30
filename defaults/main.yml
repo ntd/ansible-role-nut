@@ -1,45 +1,52 @@
 ---
-Ansible_managed: This file is managed by ansible
 # Whether to start or not the NUT service after the configuration
 nut_enable_service: true
 
+# If this is set to false, none of the following options will have any effect.
+# Any and all changes to /etc/nut/* will be your responsibility.
+nut_managed_config: true
 
-
-# Client side
+nut_mode: standalone
 nut_host: localhost
-
+nut_user: monitor
+nut_password: Whatever...
 nut_role: master
 nut_powervalue: 1
-
-# Server side config
-NutS_mode: standalone
-nut_interface:
-  - interface: 127.0.0.1
-    port: 3493
-  - interface: ::1
-    port: 3493
-
+# Deprecated: use nut_ups_extra
 nut_maxretry: 3
 
-# shared
-
-nut_user: admin
-nut_password: password
-
+# This is only an example: you must set this to match your hardware.
 nut_ups:
   - name: UPS
     # Specify a driver that supports your UPS. See
     # http://networkupstools.org/stable-hcl.html
-    driver: usbhid-ups
-    device: auto
+    driver: riello_ups
+    device: /dev/ttyUSB0
     description: Some descriptive information
+    # Further configuration options can be appended to any specific UPS
+    # by defining a multiline `extra` field, e.g.:
+    # extra: |
+    #   sdtype = 2
 
-# other vaiables for nut_ups:
-# nut_ups:
-#  snmp_version
-#  pollfreq
-#  community
-#  secLevel
-#  secName
-#  authPassword
-#  privPassword
+# These ..._extra options are directly appended to the relevant files,
+# so any additional configuration could be defined here
+nut_ups_extra: |
+  maxretry = 3
+
+nut_upsd_extra: |
+  MAXAGE 15
+  MAXCONN 1024
+  LISTEN 127.0.0.1 3493
+  LISTEN ::1 3493
+
+nut_upsmon_extra: |
+  MINSUPPLIES 1
+  SHUTDOWNCMD "/sbin/shutdown -h +0"
+  POLLFREQ 5
+  POLLFREQALERT 5
+  HOSTSYNC 15
+  DEADTIME 15
+  POWERDOWNFLAG /etc/killpower
+  RBWARNTIME 43200
+  NOCOMMWARNTIME 300
+  FINALDELAY 5

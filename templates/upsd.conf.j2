@@ -1,16 +1,3 @@
----
-#### {{ Ansible_managed }}
+# {{ ansible_managed }}
 
-MAXAGE {{ nut_MAXAGE|default(15) }}
-MAXCONN {{ nut_MAXCONN|default(1024) }}
-
-{% for IF in nut_interface %}
-LISTEN {{ IF.interface }} {{ IF.port }}
-{% endfor %}
-
-{% if (nut_CERTFILE is defined) and (nut_CERTPATH is defined) %}
-CERTFILE {{ nut_CERTFILE }}
-CERTPATH {{ nut_CERTPATH }}
-CERTIDENT "{{ nut_CERTname }}" "{{ nut_CERTdbpass }}"
-CERTREQUEST {{ nut_CERTREQUEST|default(0) }}
-{% endif %}
+{% nut_upsd_extra %}

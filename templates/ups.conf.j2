@@ -1,39 +1,11 @@
----
-### {{ Ansible_managed }}
-
-maxretry = {{ ups_maxretry|default(3) }}
+# {{ ansible_managed }}
 
 {% for ups in nut_ups %}
 [{{ ups.name }}]
     driver = {{ ups.driver }}
     port   = {{ ups.device }}
     desc   = "{{ ups.description }}"
-    pollfreq = {{ ups.pollfreq|default(30) }}
-    {% if ups.driver == "snmp-ups" %}
-    snmp_version = {{ ups.snmp_version }}
-    {% if ups.snmp_version == "v3" %}
-    secLevel = {{ ups.secLevel }}
-    secName = {{ ups.secName }}
-    authPassword = {{ ups.authPassword }}
-    privPassword = {{ ups.privPassword }}
-    {% else %}
-    community = {{ ups.community }}
-    {% endif %}
-    {% endif %}
-
-    {% if ups.product is defined %}
-    product = {{ ups.product }}
-    {% endif %}
-    {% if ups.vendorid is defined %}
-    vendorid = {{ ups.vendorid }}
-    {% endif %}
-    {% if ups.productid is defined %}
-    productid = {{ ups.productid }}
-    {% endif %}
-    {% if ups.serial is defined %}
-    serial = {{ ups.serial }}
-    {% endif %}
-    {% if ups.vendor is defined %}
-    serial = {{ ups.vendor }}
-    {% endif %}
+    {% extra|indent(4) %}
 {% endfor %}
+
+{% nut_ups_extra %}
