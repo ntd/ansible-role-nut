@@ -5,7 +5,7 @@
     driver = {{ ups.driver }}
     port   = {{ ups.device }}
     desc   = "{{ ups.description }}"
-    {% extra|indent(4) %}
+    {{ ups.extra | default('') | indent(4) }}
 {% endfor %}
 
 {% nut_ups_extra %}
