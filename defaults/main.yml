@@ -50,3 +50,8 @@ nut_upsmon_extra: |
   RBWARNTIME 43200
   NOCOMMWARNTIME 300
   FINALDELAY 5
+
+# when set NOTIFYCMD will be configured to this path
+# nut_upsmon_notifycmd:
+# when set, the content will be copied to the nut_upsmon_notifycmd path
+# nut_upsmon_notifycmd_content:

@@ -28,3 +28,11 @@
     - upsd.conf
     - upsmon.conf
   notify: restart nut
+
+- name: Install custom notifycmd script.
+  copy:
+    dest: "{{ nut_upsmon_notifycmd }}"
+    content: "{{ nut_upsmon_notifycmd_content }}"
+    owner: root
+    group: nut
+    mode: 0770
