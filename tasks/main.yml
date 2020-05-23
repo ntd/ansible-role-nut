@@ -10,9 +10,8 @@
 
 - name: Ensure NUT packages are installed.
   package:
-    name: "{{ item }}"
+    name: "{{ nut_packages }}"
     state: present
-  with_items: "{{ nut_packages }}"
 
 - name: Install NUT configuration files.
   template:
