@@ -25,19 +25,16 @@ configurations.
 Mainly used for configuring the monitor user. A user in the NUT sense is
 *not* the typical user a UNIX administrator is used to.
 
-    nut_maxretry: 3
-
-According to the NUT documentation, the default value should mitigate
-race with slow devices.
-
     nut_ups:
       - name: UPS
         driver: riello_ups
         device: /dev/ttyUSB0
         description: Some descriptive information
+        extra: |
+          maxretry = 10
+          retrydelay = 1
 
-`name` and `description` are arbitrary values used for debugging and
-reporting purposes.
+`name` is an arbitrary string that must identify univocally the UPS.
 
 `driver` depends on your hardware and must be one of the [available NUT
 driver](http://networkupstools.org/stable-hcl.html). Be sure the NUT
@@ -45,6 +42,12 @@ version installed on your server has that specific driver available.
 
 `device` is device where the UPS is listening (typically an USB port or
 a serial device).
+
+`description` is optional and is an arbitrary string used for debugging
+and reporting purposes. 
+
+`extra` is an optional multiline text to be appended verbatim at the end
+of the UPS configuration block.
 
 Example Playbook
 ----------------

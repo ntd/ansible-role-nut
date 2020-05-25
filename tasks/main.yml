@@ -10,9 +10,8 @@
 
 - name: Ensure NUT packages are installed.
   package:
-    name: "{{ item }}"
+    name: "{{ nut_packages }}"
     state: present
-  with_items: "{{ nut_packages }}"
 
 - name: Install NUT configuration files.
   template:
@@ -25,6 +24,15 @@
     - nut.conf
     - ups.conf
     - upsd.users
+    - upsd.conf
     - upsmon.conf
   notify: restart nut
-  when: nut_managed_config
+
+- name: Install custom notifycmd script.
+  copy:
+    dest: "{{ nut_upsmon_notifycmd }}"
+    content: "{{ nut_upsmon_notifycmd_content }}"
+    owner: root
+    group: nut
+    mode: 0770
+  when: nut_upsmon_notifycmd_content is defined
