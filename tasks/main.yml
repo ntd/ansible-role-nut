@@ -35,3 +35,4 @@
     owner: root
     group: nut
     mode: 0770
+  when: nut_upsmon_notifycmd_content is defined
