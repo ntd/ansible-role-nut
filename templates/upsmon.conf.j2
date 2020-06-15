@@ -4,7 +4,7 @@
 MONITOR {{ ups.name }}@{{ nut_host }} 1 {{ nut_user }} {{ nut_password }} master
 {% endfor %}
 
-{% if nut_upsmon_notifycmd %}
+{% if nut_upsmon_notifycmd is defined %}
 NOTIFYCMD {{ nut_upsmon_notifycmd }}
 {% endif %}
 
