@@ -12,10 +12,11 @@ nut_user: monitor
 nut_password: Whatever...
 nut_role: master
 nut_powervalue: 1
-# Deprecated: use nut_ups_extra
+
+# DEPRECATED: use nut_ups_extra
 nut_maxretry: 3
 
-# This is only an example: you must set this to match your hardware.
+# This is only an example: you must match your hardware setup.
 nut_ups:
   - name: UPS
     # Specify a driver that supports your UPS. See
@@ -51,7 +52,7 @@ nut_upsmon_extra: |
   NOCOMMWARNTIME 300
   FINALDELAY 5
 
-# when set NOTIFYCMD will be configured to this path
+# When set, NOTIFYCMD will be configured to this path
 # nut_upsmon_notifycmd:
-# when set, the content will be copied to the nut_upsmon_notifycmd path
+# When set, the content will be copied to the nut_upsmon_notifycmd path
 # nut_upsmon_notifycmd_content:

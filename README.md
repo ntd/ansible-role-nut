@@ -21,6 +21,10 @@ configurations.
     nut_host: localhost
     nut_user: monitor
     nut_password: Whatever...
+    # Other less used variables:
+    # nut_mode: standalone # `man 5 nut.conf`     MODE directive
+    # nut_powervalue: 1    # `man 5 upsmon.conf`  MONITOR directive, powervalue field
+    # nut_role: master     # `man 5 upsmon.conf`  MONITOR directive, type field
 
 Mainly used for configuring the monitor user. A user in the NUT sense is
 *not* the typical user a UNIX administrator is used to.
