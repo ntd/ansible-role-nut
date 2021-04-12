@@ -21,10 +21,6 @@ configurations.
     nut_host: localhost
     nut_user: monitor
     nut_password: Whatever...
-    # Other less used variables:
-    # nut_mode: standalone # `man 5 nut.conf`     MODE directive
-    # nut_powervalue: 1    # `man 5 upsmon.conf`  MONITOR directive, powervalue field
-    # nut_role: master     # `man 5 upsmon.conf`  MONITOR directive, type field
 
 Mainly used for configuring the monitor user. A user in the NUT sense is
 *not* the typical user a UNIX administrator is used to.
@@ -48,10 +44,20 @@ version installed on your server has that specific driver available.
 a serial device).
 
 `description` is optional and is an arbitrary string used for debugging
-and reporting purposes. 
+and reporting purposes.
 
 `extra` is an optional multiline text to be appended verbatim at the end
 of the UPS configuration block.
+
+Other less used variables, all of them optionals:
+
+    nut_mode: standalone # `man 5 nut.conf`     MODE directive
+    nut_powervalue: 1    # `man 5 upsmon.conf`  MONITOR directive, powervalue field
+    nut_role: master     # `man 5 upsmon.conf`  MONITOR directive, type field
+    nut_services:        # Name of the services to enable
+      - nut-driver
+      - nut-monitor
+      - nut-server
 
 Example Playbook
 ----------------
@@ -64,6 +70,8 @@ Example Playbook
             driver: riello_usb
             device: /dev/ups
             description: iPlug 800
+
+For more examples, please see `tests/test.yml`.
 
 License
 -------

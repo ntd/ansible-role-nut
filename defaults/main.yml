@@ -12,6 +12,10 @@ nut_user: monitor
 nut_password: Whatever...
 nut_role: master
 nut_powervalue: 1
+nut_services:
+  - nut-driver
+  - nut-monitor
+  - nut-server
 
 # DEPRECATED: use nut_ups_extra
 nut_maxretry: 3
