@@ -46,8 +46,8 @@ a serial device).
 `description` is optional and is an arbitrary string used for debugging
 and reporting purposes.
 
-`extra` is an optional multiline text to be appended verbatim at the end
-of the UPS configuration block.
+`extra` is an optional multiline text to be inserted verbatim in the
+global section of the relevant configuration file.
 
 Other less used variables, all of them optionals:
 
