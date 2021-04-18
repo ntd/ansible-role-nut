@@ -27,6 +27,7 @@
     - upsd.conf
     - upsmon.conf
   notify: restart nut
+  when: nut_managed_config
 
 - name: Install custom notifycmd script.
   copy:

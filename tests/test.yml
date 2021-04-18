@@ -1,12 +1,34 @@
 ---
 - hosts: localhost
   remote_user: root
+
+  # ansible-role-nut is the uninstalled name of the ntd.nut role
   roles:
-    # ansible-role-nut is the name of the ntd.nut role when uninstalled
+
+    # Installation only
     - role: ansible-role-nut
       nut_enable_service: false
+      nut_managed_config: false
+
+    # NetClient only mode
+    - role: ansible-role-nut
+      nut_mode: netclient
+      nut_user: monitor
+      nut_password: Whatever...
+      nut_ups: []
+      nut_services:
+        - nut-monitor
+
+    # Stand-alone with multiple UPS
+    - role: ansible-role-nut
+      nut_user: monitor
+      nut_password: Whatever...
       nut_ups:
         - name: riello
           driver: riello_usb
-          device: /dev/ups
+          device: /dev/ttyUSB0
           description: iPlug 800
+        - name: eaton
+          driver: blazer_usb
+          device: /dev/ttyUSB1
+          description: E Series NV
