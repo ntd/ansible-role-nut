@@ -16,7 +16,7 @@
 - name: Install NUT configuration files.
   template:
     src: "{{ item }}.j2"
-    dest: "/etc/nut/{{ item }}"
+    dest: "{{__nut_config_dir}}{{ item }}"
     owner: root
     group: nut
     mode: 0640
