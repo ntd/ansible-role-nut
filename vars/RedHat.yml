@@ -1,0 +1,5 @@
+---
+__nut_packages:
+  - nut-client
+  - nut
+__nut_config_dir: /etc/ups/
