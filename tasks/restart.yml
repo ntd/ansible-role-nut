@@ -1,0 +1,38 @@
+---
+- name: "Populate service facts."
+  ansible.builtin.service_facts:
+  when: "'nut-driver' in nut_services"
+
+- name: "Populate initial nut facts."
+  ansible.builtin.set_fact:
+    nut_driver_services: []
+    nut_other_services: "{{ nut_services }}"
+
+- name: "Append per-device nut-driver services."
+  ansible.builtin.set_fact:
+    nut_driver_services: "{{ nut_driver_services + [service_name] if service_name in ansible_facts.services else nut_driver_services }}"
+  vars:
+    name: "{{ item.name }}"
+    service_name: "nut-driver@{{ item.name }}.service"
+  loop: "{{ nut_ups }}"
+  when: "'services' in ansible_facts"
+
+- name: "Restart named nut-driver services."
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  with_items: "{{ nut_driver_services }}"
+  when: "nut_driver_services | length > 0"
+
+- name: "Exclude bare nut-driver service from list to restart"
+  ansible.builtin.set_fact:
+    nut_other_services: "{{ nut_other_services - ['nut-driver'] }}"
+  with_items: "{{ nut_driver_services }}"
+  when: "nut_driver_services | length > 0"
+
+- name: "Restart nut."
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+  with_items: "{{ nut_other_services }}"
+  when: nut_enable_service
