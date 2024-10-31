@@ -1,7 +1,4 @@
 ---
 - name: restart nut
-  service:
-    name: "{{ item }}"
-    state: restarted
-  with_items: "{{ nut_services }}"
+  ansible.builtin.include_tasks: "../tasks/restart.yml"
   when: nut_enable_service
