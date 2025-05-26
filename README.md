@@ -59,6 +59,26 @@ Other less used variables, all of them optionals:
       - nut-monitor
       - nut-server
 
+Users
+-----
+
+The user configured using the built-in variables `nut_user` and `nut_password` is used
+both for the server (`upsd.users`) and client (`upsmon.conf`) automatically. If you
+want to provision additional users (e.g. to use them with external systems), you can
+specify additional users like this:
+
+```yaml
+nut_additional_users:
+  - name: nutuser1
+    password: password1
+    role: user
+  - name: nutuser2
+    password: password2
+    role: admin
+    extra: |
+      sdtype = 2
+```
+
 Example Playbook
 ----------------
 

@@ -17,6 +17,18 @@ nut_services:
   - nut-monitor
   - nut-server
 
+# Add additional users to the NUT configuration, which can be used for external clients.
+# nut_additional_users:
+#   - name: nutuser1
+#     password: password1
+#     role: user
+#   - name: nutuser2
+#     password: password2
+#     role: admin
+#     extra: |
+#       sdtype = 2
+nut_additional_users: []
+
 # DEPRECATED: use nut_ups_extra
 nut_maxretry: 3
 

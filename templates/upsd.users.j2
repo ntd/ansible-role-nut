@@ -3,3 +3,10 @@
 [{{ nut_user }}]
     password = {{ nut_password }}
     upsmon {{ nut_role }}
+
+{% for user in nut_additional_users %}
+[{{ user.name }}]
+    password = {{ user.password }}
+    upsmon {{ user.role }}
+    {{ user.extra | default('') | indent(4) }}
+{% endfor %}
