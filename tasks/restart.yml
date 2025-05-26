@@ -26,7 +26,7 @@
 
 - name: "Exclude bare nut-driver service from list to restart"
   ansible.builtin.set_fact:
-    nut_other_services: "{{ nut_other_services - ['nut-driver'] }}"
+    nut_other_services: "{{ nut_other_services | difference(['nut-driver']) }}"
   with_items: "{{ nut_driver_services }}"
   when: "nut_driver_services | length > 0"
 
