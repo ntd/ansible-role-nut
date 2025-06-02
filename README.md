@@ -11,28 +11,52 @@ Role Variables
 Available variables are listed below, along with default values (see
 `defaults/main.yml`):
 
-    nut_managed_config: true
+### Generic Configuration
 
-If this is set to false, none of the following options will have any
-effect, that is any and all changes under `/etc/nut/` will be your
-responsibility. This is often desirable when you have complex
-configurations.
+| Variable | Default Value | Description |
+|----------|---------------|-------------|
+| `nut_managed_config` | `true` | If this is set to false, none of the following options will have any effect, that is any and all changes under `/etc/nut/` will be your responsibility. This can be desirable if you have complex configurations. |
+| `nut_enable_service` | `true` | Whether to start the NUT service after configuration |
+| `nut_mode` | `standalone` | NUT mode setting (see `man 5 nut.conf` MODE directive) |
+| `nut_services` | `[nut-driver, nut-monitor, nut-server]` | List of NUT services to enable |
+| `nut_users` | See example below | List of users for NUT configuration (replaces legacy user variables). See below for detailed schema. |
+| `nut_ups` | See example below | List of UPS configurations with name, driver, device, description |
+| `nut_ups_extra` | `maxretry = 3` | Additional configuration options directly placed in `ups.conf` |
+| `nut_upsd_extra` | Multi-line config | Additional upsd daemon configuration directly placed in `upsd.conf` |
+| `nut_maxretry` | `3` | **DEPRECATED** - Use `nut_ups_extra` instead |
 
-    nut_host: localhost
-    nut_user: monitor
-    nut_password: Whatever...
+### UPSMON Configuration
 
-Mainly used for configuring the monitor user. A user in the NUT sense is
-*not* the typical user a UNIX administrator is used to.
+This settings are primarily used for the **local** `upsmon.conf` configuration.
 
-    nut_ups:
-      - name: UPS
-        driver: riello_ups
-        device: /dev/ttyUSB0
-        description: Some descriptive information
-        extra: |
-          maxretry = 10
-          retrydelay = 1
+| Variable | Default Value | Description |
+|----------|---------------|-------------|
+| `nut_host` | `localhost` | Hostname of the NUT server to monitor |
+| `nut_powervalue` | `1` | Power value for MONITOR directive (see `man 5 upsmon.conf`) |
+| `nut_user` | `undefined` | **DEPRECATED** - Legacy user configuration, migrate to `nut_users` |
+| `nut_password` | `undefined` | **DEPRECATED** - Legacy password configuration, migrate to `nut_users` |
+| `nut_role` | `undefined` | **DEPRECATED** - Legacy role configuration, migrate to `nut_users` |
+| `nut_upsmon_user` | Auto-derived | Use this variable to override how the upsmon **username** is derived. If you override, make sure to create the required user yourself. |
+| `nut_upsmon_password` | Auto-derived | Use this variable to override how the upsmon users **password** is derived. If you override, make sure to create the required user yourself. |
+| `nut_upsmon_role` | Auto-derived | Use this variable to override how the upsmon users **role** is derived. If you override, make sure to create the required user yourself. |
+| `nut_upsmon_extra` | Multi-line config | Additional upsmon configuratio directly placed in `upsmon.conf` |
+| `nut_upsmon_notifycmd` | `undefined` | Path for NOTIFYCMD configuration |
+| `nut_upsmon_notifycmd_content` | `undefined` | Content to copy to the notifycmd path |
+
+Refer to the Users Definition section below for details on how to configure users.
+
+### UPS Definition
+
+```yaml
+nut_ups:
+  - name: UPS
+    driver: riello_ups
+    device: /dev/ttyUSB0
+    description: Some descriptive information
+    extra: |
+      maxretry = 10
+      retrydelay = 1
+```
 
 `name` is an arbitrary string that must identify univocally the UPS.
 
@@ -58,6 +82,38 @@ Other less used variables, all of them optionals:
       - nut-driver
       - nut-monitor
       - nut-server
+
+### Users Definition
+
+The NUT users are configured using the `nut_users` variable, see nested scheme below.
+You can optionally specify extra configuration snippets that
+are added to each user.
+
+The legacy variables `nut_user`, `nut_password` and `nut_role` are now **deprecated**.
+For now, the behaviour is as follows:
+
+- If `nut_user` is defined, the legacy variables will be added to `upsd.users` and will be used in `upsmon.conf`
+- If `nut_user` is not defined, the first entry of `nut_users` will be used in `upsmon.conf`
+
+This default behaviour can be overriden by explicitely setting 
+the `nut_upsmon_*` variables. Note that you are responsible to
+create this user in `upsd.users` (for example by adding them to
+`nut_users`), the role does not do that automatically.
+
+```yaml
+nut_users:
+  - name: nutuser1
+    password: password1
+    role: user
+  - name: nutuser2
+    password: password2
+    role: admin
+    extra: |
+      sdtype = 2
+```
+
+For a detailed description on user attributes that can be set,
+please refer to the [`upsd.users` documentation](https://networkupstools.org/docs/man/upsd.users.html).
 
 Example Playbook
 ----------------
