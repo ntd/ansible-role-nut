@@ -37,7 +37,7 @@
     group: "nut"
     mode: "0640"
   with_items: "{{ nut_configuration_files }}"
-  notify: "restart nut"
+  notify: "Restart nut"
   when: "nut_managed_config"
 
 - name: Install custom notifycmd script.
