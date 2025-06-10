@@ -15,9 +15,9 @@ nut_services:
   - nut-server
 
 # DEPRECATED. Please migrate to nut_users instead.
-# nut_user: monitor
-# nut_password: Whatever...
-# nut_role: master
+nut_user:
+nut_password:
+nut_role:
 
 # Add users to the NUT configuration, which can be used for external clients.
 # Note that the first user is used for upsmon, unless the legacy nut_user and nut_password are set.
