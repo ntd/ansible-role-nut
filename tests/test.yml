@@ -1,18 +1,32 @@
 ---
+# Sample configurations.
+#
+# For testing, use:
+#
+#     ansible-playbook --check tests/test.yml
 
-- name: Sample configurations.
+- name: Installation only.
   hosts: localhost
-  remote_user: root
-
-  # ansible-role-nut is the uninstalled name of the ntd.nut role
   roles:
-
-    # Installation only
     - role: ntd.nut
       nut_enable_service: false
       nut_managed_config: false
 
-    # NetClient only mode
+- name: NetClient only mode.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_mode: netclient
+      ntd_users:
+        - name: monitor
+          password: Whatever...
+      nut_ups: []
+      nut_services:
+        - nut-monitor
+
+- name: NetClient only mode (deprecated way).
+  hosts: localhost
+  roles:
     - role: ntd.nut
       nut_mode: netclient
       nut_user: monitor
@@ -21,7 +35,31 @@
       nut_services:
         - nut-monitor
 
-    # Stand-alone with multiple UPS
+- name: Stand-alone with multiple users and multiple UPS.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      ntd_users:
+        - name: monitor
+          password: Whatever...
+        - name: additional
+          password: WhoKnows...
+          role: admin
+          extra: |
+            sdtype = 2
+      nut_ups:
+        - name: riello
+          driver: riello_usb
+          device: /dev/ttyUSB0
+          description: iPlug 800
+        - name: eaton
+          driver: blazer_usb
+          device: /dev/ttyUSB1
+          description: E Series NV
+
+- name: Stand-alone with multiple UPS (deprecated way).
+  hosts: localhost
+  roles:
     - role: ntd.nut
       nut_user: monitor
       nut_password: Whatever...
