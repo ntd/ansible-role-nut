@@ -1,18 +1,19 @@
 ---
-- hosts: localhost
-  remote_user: root
 
 - name: Sample configurations.
+  hosts: localhost
+  remote_user: root
+
   # ansible-role-nut is the uninstalled name of the ntd.nut role
   roles:
 
     # Installation only
-    - role: ansible-role-nut
+    - role: ntd.nut
       nut_enable_service: false
       nut_managed_config: false
 
     # NetClient only mode
-    - role: ansible-role-nut
+    - role: ntd.nut
       nut_mode: netclient
       nut_user: monitor
       nut_password: Whatever...
@@ -21,7 +22,7 @@
         - nut-monitor
 
     # Stand-alone with multiple UPS
-    - role: ansible-role-nut
+    - role: ntd.nut
       nut_user: monitor
       nut_password: Whatever...
       nut_ups:
