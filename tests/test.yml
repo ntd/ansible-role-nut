@@ -2,6 +2,7 @@
 - hosts: localhost
   remote_user: root
 
+- name: Sample configurations.
   # ansible-role-nut is the uninstalled name of the ntd.nut role
   roles:
 
