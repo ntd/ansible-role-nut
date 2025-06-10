@@ -12,7 +12,6 @@
   ansible.builtin.set_fact:
     nut_driver_services: "{{ nut_driver_services + [service_name] if service_name in ansible_facts.services else nut_driver_services }}"
   vars:
-    name: "{{ item.name }}"
     service_name: "nut-driver@{{ item.name }}.service"
   loop: "{{ nut_ups }}"
   when: "'services' in ansible_facts"
