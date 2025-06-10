@@ -1,0 +1,1 @@
+/home/nicola/sandbox/ansible-role-nut
