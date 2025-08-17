@@ -1,7 +1,7 @@
 Ansible Role: NUT
 =================
 Installs and configures [NUT](http://networkupstools.org/) (Nework UPS
-tools) on Debian based systems.
+tools) on Debian, ArchLinux and RedHat based systems.
 
 Role Variables
 --------------
