@@ -10,9 +10,9 @@ nut_mode: standalone
 nut_host: localhost
 nut_powervalue: 1
 nut_services:
-  - nut-driver
-  - nut-monitor
-  - nut-server
+  - nut-server.service
+  - nut-monitor.service
+  - nut.target
 
 # DEPRECATED. Please migrate to nut_users instead.
 nut_user:

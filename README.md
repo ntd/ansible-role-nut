@@ -18,7 +18,7 @@ Available variables are listed below, along with default values (see
 | `nut_managed_config` | `true` | If this is set to false, none of the following options will have any effect, that is any and all changes under `/etc/nut/` will be your responsibility. This can be desirable if you have complex configurations. |
 | `nut_enable_service` | `true` | Whether to start the NUT service after configuration |
 | `nut_mode` | `standalone` | NUT mode setting (see `man 5 nut.conf` MODE directive) |
-| `nut_services` | `[nut-driver, nut-monitor, nut-server]` | List of NUT services to enable |
+| `nut_services` | `[nut-server.service, nut-monitor.service, nut.target]` | List of NUT services, excluding driver-related ones, to enable |
 | `nut_users` | See example below | List of users for NUT configuration (replaces legacy user variables). See below for detailed schema. |
 | `nut_ups` | See example below | List of UPS configurations with name, driver, device, description |
 | `nut_ups_extra` | `maxretry = 3` | Additional configuration options directly placed in `ups.conf` |
@@ -79,9 +79,9 @@ Other less used variables, all of them optionals:
     nut_powervalue: 1    # `man 5 upsmon.conf`  MONITOR directive, powervalue field
     nut_role: master     # `man 5 upsmon.conf`  MONITOR directive, type field
     nut_services:        # Name of the services to enable
-      - nut-driver
-      - nut-monitor
-      - nut-server
+      - nut-server.service
+      - nut-monitor.service
+      - nut.target
 
 ### Users Definition
 
