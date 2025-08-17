@@ -5,6 +5,11 @@
 #
 #     ansible-playbook --check tests/test.yml
 
+- name: Default configuration.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+
 - name: Installation only.
   hosts: localhost
   roles:
@@ -72,3 +77,9 @@
           driver: blazer_usb
           device: /dev/ttyUSB1
           description: E Series NV
+
+- name: With undefined nut_host.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_host:
