@@ -16,6 +16,7 @@ Available variables are listed below, along with default values (see
 | `nut_managed_config` | `true` | If this is set to false, none of the following options will have any effect, that is any and all changes under `/etc/nut/` will be your responsibility. This can be desirable if you have complex configurations. |
 | `nut_enable_service` | `true` | Whether to start the NUT service after configuration |
 | `nut_mode` | `standalone` | NUT mode setting (see `man 5 nut.conf` MODE directive) |
+| `nut_extra` | empty | Additional configuration options directly placed in `nut.conf`. This code is intended to be sourced by shell scripts: you MUST NOT use spaces around the equal sign! |
 | `nut_services` | `[nut-server.service, nut-monitor.service, nut.target]` | List of NUT services, excluding driver-related ones, to enable |
 | `nut_users` | See example below | List of users for NUT configuration (replaces legacy user variables). See below for detailed schema. |
 | `nut_ups` | See example below | List of UPS configurations with name, driver, device, description |
@@ -31,15 +32,15 @@ This settings are primarily used for the **local** `upsmon.conf` configuration.
 |----------|---------------|-------------|
 | `nut_host` | `localhost` | Hostname of the NUT server to monitor |
 | `nut_powervalue` | `1` | Power value for MONITOR directive (see `man 5 upsmon.conf`) |
-| `nut_user` | `undefined` | **DEPRECATED** - Legacy user configuration, migrate to `nut_users` |
-| `nut_password` | `undefined` | **DEPRECATED** - Legacy password configuration, migrate to `nut_users` |
-| `nut_role` | `undefined` | **DEPRECATED** - Legacy role configuration, migrate to `nut_users` |
+| `nut_user` | empty | **DEPRECATED** - Legacy user configuration, migrate to `nut_users` |
+| `nut_password` | empty | **DEPRECATED** - Legacy password configuration, migrate to `nut_users` |
+| `nut_role` | empty | **DEPRECATED** - Legacy role configuration, migrate to `nut_users` |
 | `nut_upsmon_user` | Auto-derived | Use this variable to override how the upsmon **username** is derived. If you override, make sure to create the required user yourself. |
 | `nut_upsmon_password` | Auto-derived | Use this variable to override how the upsmon users **password** is derived. If you override, make sure to create the required user yourself. |
 | `nut_upsmon_role` | Auto-derived | Use this variable to override how the upsmon users **role** is derived. If you override, make sure to create the required user yourself. |
 | `nut_upsmon_extra` | Multi-line config | Additional upsmon configuratio directly placed in `upsmon.conf` |
-| `nut_upsmon_notifycmd` | `undefined` | Path for NOTIFYCMD configuration |
-| `nut_upsmon_notifycmd_content` | `undefined` | Content to copy to the notifycmd path |
+| `nut_upsmon_notifycmd` | undefined | Path for NOTIFYCMD configuration |
+| `nut_upsmon_notifycmd_content` | undefined | Content to copy to the notifycmd path |
 
 Refer to the Users Definition section below for details on how to configure users.
 

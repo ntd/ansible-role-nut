@@ -7,6 +7,7 @@ nut_enable_service: true
 nut_managed_config: true
 
 nut_mode: standalone
+nut_extra:
 nut_host: localhost
 nut_powervalue: 1
 nut_services:

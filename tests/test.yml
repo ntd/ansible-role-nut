@@ -3,7 +3,13 @@
 #
 # For testing, use:
 #
-#     ansible-playbook --check tests/test.yml
+#     ansible-playbook -CD tests/test.yml
+
+- name: Skip installation.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_packages: []
 
 - name: Default configuration.
   hosts: localhost
@@ -44,6 +50,8 @@
   hosts: localhost
   roles:
     - role: ntd.nut
+      nut_extra: |
+        NUT_DEBUG_SYSLOG=stderr
       nut_users:
         - name: monitor
           password: Whatever...
@@ -83,3 +91,4 @@
   roles:
     - role: ntd.nut
       nut_host:
+      nut_packages: []
