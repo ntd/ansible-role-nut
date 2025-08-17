@@ -19,6 +19,7 @@
   ansible.builtin.service:
     name: "{{ item }}"
     state: restarted
+    enabled: true
   with_items: "{{ nut_driver_services }}"
   when: "nut_driver_services | length > 0"
 
@@ -29,6 +30,7 @@
   ansible.builtin.service:
     name: nut-driver
     state: restarted
+    enabled: true
   when: "'nut-driver' in nut_services"
   ignore_errors: true
 
@@ -36,5 +38,6 @@
   ansible.builtin.service:
     name: "{{ item }}"
     state: restarted
+    enabled: true
   with_items: "{{ nut_services | difference(['nut-driver']) }}"
   when: nut_enable_service
