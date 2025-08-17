@@ -7,12 +7,13 @@ nut_enable_service: true
 nut_managed_config: true
 
 nut_mode: standalone
+nut_extra:
 nut_host: localhost
 nut_powervalue: 1
 nut_services:
-  - nut-driver
-  - nut-monitor
-  - nut-server
+  - nut-server.service
+  - nut-monitor.service
+  - nut.target
 
 # DEPRECATED. Please migrate to nut_users instead.
 nut_user:
@@ -40,7 +41,7 @@ nut_users:
 # if nut_user is defined, it will be used as the upsmon user. Otherwise, the first user in nut_users will be used.
 nut_upsmon_user: "{{ nut_user if nut_user else (nut_users[0].name if nut_users | length > 0 else 'monitor') }}"
 nut_upsmon_password: "{{ nut_password if nut_password else (nut_users[0].password if nut_users | length > 0 else 'Whatever...') }}"
-nut_upsmon_role: "{{ nut_role if nut_role else (nut_users[0].role if nut_users | length > 0 else 'master') }}"
+nut_upsmon_role: "{{ nut_role if nut_role else nut_users[0].role if nut_users | length > 0 and nut_users[0].role is defined else 'master' }}"
 
 # DEPRECATED: use nut_ups_extra
 nut_maxretry: 3

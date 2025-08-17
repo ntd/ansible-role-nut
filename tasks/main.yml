@@ -17,17 +17,21 @@
   ansible.builtin.set_fact:
     nut_configuration_files:
       - nut.conf
-      - upsmon.conf
 
 - name: "Add ups.conf to configuration files."
   ansible.builtin.set_fact:
     nut_configuration_files: "{{ nut_configuration_files + ['ups.conf'] }}"
-  when: '("nut-server" in nut_services) or ("nut-driver" in nut_services)'
+  when: nut_ups | length > 0
 
 - name: "Add upsd.users and upsd.conf to configuration files."
   ansible.builtin.set_fact:
     nut_configuration_files: "{{ nut_configuration_files + ['upsd.users', 'upsd.conf'] }}"
-  when: '"nut-server" in nut_services'
+  when: ("nut-server" in nut_services) or ("nut-server.service" in nut_services)
+
+- name: "Add upsmon.conf to configuration files."
+  ansible.builtin.set_fact:
+    nut_configuration_files: "{{ nut_configuration_files + ['upsmon.conf'] }}"
+  when: ("nut-monitor" in nut_services) or ("nut-monitor.service" in nut_services)
 
 - name: "Install NUT configuration files."
   ansible.builtin.template:
@@ -36,7 +40,7 @@
     owner: "root"
     group: "nut"
     mode: "0640"
-  with_items: "{{ nut_configuration_files }}"
+  loop: "{{ nut_configuration_files }}"
   notify: "Restart nut"
   when: "nut_managed_config"
 

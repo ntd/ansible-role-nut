@@ -1,5 +1,5 @@
 ---
 
 - name: Restart nut
-  ansible.builtin.include_tasks: "../tasks/restart.yml"
+  ansible.builtin.include_tasks: "../tasks/restart-nut.yml"
   when: nut_enable_service

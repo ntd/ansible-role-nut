@@ -1,0 +1,46 @@
+---
+
+# Three approaches are attempted to start the NUT drivers,
+# stopping at the first successful one:
+#
+# 1. the modern approach provided by NUT: per-device services
+#    are dynamically created whenever `ups.conf` is edited;
+# 2. the manual approach: per-device services are created
+#    by traversing the `nut_ups` variable;
+# 3. the ancient approach: enable `nut-driver.service`.
+
+- name: "Enable enumerator services in modern NUT."
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: true
+  loop:
+    - nut-driver-enumerator.path
+    - nut-driver-enumerator.service
+  register: enumerator_services
+  failed_when: false
+
+- name: "Manually enable per-driver services."
+  ansible.builtin.service:
+    name: "nut-driver@{{ item.name }}.service"
+    state: "restarted"
+    enabled: true
+  loop: "{{ nut_ups }}"
+  register: manual_services
+  failed_when: false
+  when: enumerator_services.failed is defined
+
+- name: "Enable bare nut-driver present in ancient NUT."
+  ansible.builtin.service:
+    name: nut-driver.service
+    state: restarted
+    enabled: true
+  when: enumerator_services.failed is defined and manual_services.failed is defined
+
+- name: "Enable driver target."
+  ansible.builtin.service:
+    name: "nut-driver.target"
+    state: restarted
+    enabled: true
+  # DEPRECATED: I am just not sure old NUT had `driver.target`
+  failed_when: false

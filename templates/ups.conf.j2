@@ -1,11 +1,11 @@
 # {{ ansible_managed }}
 
-{{ nut_ups_extra }}
+{% if nut_ups_extra %}{{ nut_ups_extra }}{% endif %}
 
 {% for ups in nut_ups %}
 [{{ ups.name }}]
     driver = {{ ups.driver }}
-    port   = {{ ups.device }}
-    desc   = "{{ ups.description }}"
-    {{ ups.extra | default('') | indent(4) }}
+    {% if ups.device is defined %}port = {{ ups.device }}{% endif +%}
+    {% if ups.description is defined %}desc = "{{ ups.description }}"{% endif +%}
+    {% if ups.extra is defined %}{{ ups.extra | indent(4) }}{% endif +%}
 {% endfor %}

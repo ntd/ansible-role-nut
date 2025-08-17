@@ -3,7 +3,18 @@
 #
 # For testing, use:
 #
-#     ansible-playbook --check tests/test.yml
+#     ansible-playbook -CD tests/test.yml
+
+- name: Skip installation.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_packages: []
+
+- name: Default configuration.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
 
 - name: Installation only.
   hosts: localhost
@@ -17,7 +28,7 @@
   roles:
     - role: ntd.nut
       nut_mode: netclient
-      ntd_users:
+      nut_users:
         - name: monitor
           password: Whatever...
       nut_ups: []
@@ -28,6 +39,7 @@
   hosts: localhost
   roles:
     - role: ntd.nut
+      nut_users: [] # Clear default nut_users introduced recently
       nut_mode: netclient
       nut_user: monitor
       nut_password: Whatever...
@@ -39,19 +51,24 @@
   hosts: localhost
   roles:
     - role: ntd.nut
-      ntd_users:
+      nut_extra: |
+        NUT_DEBUG_SYSLOG=stderr
+      nut_users:
         - name: monitor
           password: Whatever...
         - name: additional
           password: WhoKnows...
-          role: admin
           extra: |
-            sdtype = 2
+            upsmon primary
+            instcmds = ALL
       nut_ups:
         - name: riello
           driver: riello_usb
           device: /dev/ttyUSB0
           description: iPlug 800
+          extra: |
+            cable = 940-0095B
+            sdtype = 2
         - name: eaton
           driver: blazer_usb
           device: /dev/ttyUSB1
@@ -62,6 +79,7 @@
   roles:
     - role: ntd.nut
       nut_user: monitor
+      nut_users: [] # Clear default nut_users introduced recently
       nut_password: Whatever...
       nut_ups:
         - name: riello
@@ -72,3 +90,19 @@
           driver: blazer_usb
           device: /dev/ttyUSB1
           description: E Series NV
+
+- name: With undefined nut_host.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_host:
+      nut_packages: []
+
+- name: Test empty extras.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_extra:
+      nut_ups_extra:
+      nut_upsd_extra:
+      nut_upsmon_extra:

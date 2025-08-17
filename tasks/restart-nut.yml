@@ -1,0 +1,16 @@
+---
+
+- name: Restarting and enabling NUT driver services.
+  ansible.builtin.include_tasks:
+    file: "restart-driver.yml"
+  when: nut_ups | length > 0
+
+- name: Restarting and enabling configured NUT services.
+  ansible.builtin.service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: true
+  loop: "{{ nut_services }}"
+  # DEPRECATED: this is just included for backward compatibility,
+  # where the inexistent `nut-driver` service should not abort.
+  failed_when: false
