@@ -13,4 +13,4 @@
   loop: "{{ nut_services }}"
   # DEPRECATED: this is just included for backward compatibility,
   # where the inexistent `nut-driver` service should not abort.
-  ignore_errors: true
+  failed_when: false

@@ -17,8 +17,8 @@
   loop:
     - nut-driver-enumerator.path
     - nut-driver-enumerator.service
-  ignore_errors: true
   register: enumerator_services
+  failed_when: false
 
 - name: "Manually enable per-driver services."
   ansible.builtin.service:
@@ -26,8 +26,8 @@
     state: "restarted"
     enabled: true
   loop: "{{ nut_ups }}"
-  ignore_errors: true
   register: manual_services
+  failed_when: false
   when: enumerator_services.failed is defined
 
 - name: "Enable bare nut-driver present in ancient NUT."
@@ -43,4 +43,4 @@
     state: restarted
     enabled: true
   # DEPRECATED: I am just not sure old NUT had `driver.target`
-  ignore_errors: true
+  failed_when: false
