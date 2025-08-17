@@ -44,9 +44,9 @@
           password: Whatever...
         - name: additional
           password: WhoKnows...
-          role: admin
           extra: |
-            sdtype = 2
+            upsmon primary
+            instcmds = ALL
       nut_ups:
         - name: riello
           driver: riello_usb

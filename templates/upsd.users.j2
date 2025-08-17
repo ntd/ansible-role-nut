@@ -2,13 +2,13 @@
 
 {% if nut_user %}
 [{{ nut_user }}]
-    password = {{ nut_password }}
-    upsmon {{ nut_role }}
+    password = {{ nut_password }}{% if nut_role %}
+    upsmon {{ nut_role }}{% endif %}
 
 {% endif %}
 {% for user in nut_users %}
 [{{ user.name }}]
-    password = {{ user.password }}
-    upsmon {{ user.role }}
+    password = {{ user.password }}{% if user.role %}
+    upsmon {{ user.role }}{% endif %}
     {{ user.extra | default('') | indent(4) }}
 {% endfor %}

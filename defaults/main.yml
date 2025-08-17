@@ -40,7 +40,7 @@ nut_users:
 # if nut_user is defined, it will be used as the upsmon user. Otherwise, the first user in nut_users will be used.
 nut_upsmon_user: "{{ nut_user if nut_user else (nut_users[0].name if nut_users | length > 0 else 'monitor') }}"
 nut_upsmon_password: "{{ nut_password if nut_password else (nut_users[0].password if nut_users | length > 0 else 'Whatever...') }}"
-nut_upsmon_role: "{{ nut_role if nut_role else (nut_users[0].role if nut_users | length > 0 else 'master') }}"
+nut_upsmon_role: "{{ nut_role if nut_role else nut_users[0].role if nut_users | length > 0 and nut_users[0].role is defined else 'master' }}"
 
 # DEPRECATED: use nut_ups_extra
 nut_maxretry: 3
