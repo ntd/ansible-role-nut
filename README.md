@@ -70,45 +70,61 @@ a serial device).
 and reporting purposes.
 
 `extra` is an optional multiline text to be inserted verbatim in the
-global section of the relevant configuration file.
+relevant UPS section.
 
 Other less used variables, all of them optionals:
 
     nut_mode: standalone # `man 5 nut.conf`     MODE directive
     nut_powervalue: 1    # `man 5 upsmon.conf`  MONITOR directive, powervalue field
     nut_role: master     # `man 5 upsmon.conf`  MONITOR directive, type field
-    nut_services:        # Name of the services to enable
+    nut_services:        # Name of non-driver services to enable
       - nut-server.service
       - nut-monitor.service
       - nut.target
 
 ### Users Definition
 
-The NUT users are configured using the `nut_users` variable, see nested scheme below.
-You can optionally specify extra configuration snippets that
-are added to each user.
+The NUT users are configured using the `nut_users` variable, see
+nested scheme below. You can optionally specify extra configuration
+snippets that are added to each user.
 
-The legacy variables `nut_user`, `nut_password` and `nut_role` are now **deprecated**.
-For now, the behaviour is as follows:
+The legacy variables `nut_user`, `nut_password` and `nut_role` are now
+**deprecated**. For now, the behaviour is as follows:
 
 - If `nut_user` is defined, the legacy variables will be added to `upsd.users` and will be used in `upsmon.conf`
 - If `nut_user` is not defined, the first entry of `nut_users` will be used in `upsmon.conf`
 
-This default behaviour can be overriden by explicitely setting 
-the `nut_upsmon_*` variables. Note that you are responsible to
-create this user in `upsd.users` (for example by adding them to
-`nut_users`), the role does not do that automatically.
+This default behaviour can be overriden by explicitely setting
+the `nut_upsmon_*` variables. Note that in this case you are still
+responsible to create the same user in `upsd.users` (for example by
+adding it to `nut_users`): the role does not do that automatically.
 
 ```yaml
 nut_users:
   - name: nutuser1
     password: password1
-    role: user
+    role: primary # DEPRECATED: use extra instead
   - name: nutuser2
     password: password2
-    role: admin
     extra: |
-      sdtype = 2
+      role = admin
+      actions = set
+      actions = fsd
+```
+
+The `role` of the first user will be used as `type` field in the
+`MONITOR` directive of `upsmon.conf`. This is deprecated: it is better
+to explicitely specify it in ` nut_upsmon_role` or let the default value
+(`master`, now mapping to `primary`).
+
+```yaml
+nut_users:
+  - name: masteruser
+    password: masterpassword
+  - name: slaveuser
+    password: slavepassword
+    extra: |
+      upsmon slave
 ```
 
 For a detailed description on user attributes that can be set,
@@ -117,16 +133,18 @@ please refer to the [`upsd.users` documentation](https://networkupstools.org/doc
 Example Playbook
 ----------------
 
-    - hosts: all
-      roles:
-      - role: ntd.nut
-        nut_ups:
-          - name: riello
-            driver: riello_usb
-            device: /dev/ups
-            description: iPlug 800
+```yaml
+- hosts: all
+  roles:
+  - role: ntd.nut
+    nut_ups:
+      - name: riello
+        driver: riello_usb
+        device: /dev/ups
+        description: iPlug 800
+```
 
-For more examples, please see `tests/test.yml`.
+For many more examples, please see `tests/test.yml`.
 
 License
 -------
