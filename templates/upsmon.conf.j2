@@ -6,6 +6,6 @@ MONITOR {{ ups.name }}{% if nut_host %}@{{ nut_host }}{% endif %} {{ nut_powerva
 
 {% if nut_upsmon_notifycmd is defined %}
 NOTIFYCMD {{ nut_upsmon_notifycmd }}
-{% endif %}
+{% endif -%}
 
-{{ nut_upsmon_extra }}
+{% if nut_upsmon_extra %}{{ nut_upsmon_extra }}{% endif %}

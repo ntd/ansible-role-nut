@@ -39,6 +39,7 @@
   hosts: localhost
   roles:
     - role: ntd.nut
+      nut_users: [] # Clear default nut_users introduced recently
       nut_mode: netclient
       nut_user: monitor
       nut_password: Whatever...
@@ -65,6 +66,9 @@
           driver: riello_usb
           device: /dev/ttyUSB0
           description: iPlug 800
+          extra: |
+            cable = 940-0095B
+            sdtype = 2
         - name: eaton
           driver: blazer_usb
           device: /dev/ttyUSB1
@@ -75,6 +79,7 @@
   roles:
     - role: ntd.nut
       nut_user: monitor
+      nut_users: [] # Clear default nut_users introduced recently
       nut_password: Whatever...
       nut_ups:
         - name: riello
@@ -92,3 +97,12 @@
     - role: ntd.nut
       nut_host:
       nut_packages: []
+
+- name: Test empty extras.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_extra:
+      nut_ups_extra:
+      nut_upsd_extra:
+      nut_upsmon_extra:
