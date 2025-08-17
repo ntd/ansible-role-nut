@@ -1,7 +1,5 @@
 Ansible Role: NUT
 =================
-[![Build Status](https://travis-ci.org/ntd/ansible-role-nut.svg?branch=master)](https://travis-ci.org/ntd/ansible-role-nut)
-
 Installs and configures [NUT](http://networkupstools.org/) (Nework UPS
 tools) on Debian based systems.
 
