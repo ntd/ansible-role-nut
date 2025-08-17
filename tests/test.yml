@@ -17,7 +17,7 @@
   roles:
     - role: ntd.nut
       nut_mode: netclient
-      ntd_users:
+      nut_users:
         - name: monitor
           password: Whatever...
       nut_ups: []
@@ -39,7 +39,7 @@
   hosts: localhost
   roles:
     - role: ntd.nut
-      ntd_users:
+      nut_users:
         - name: monitor
           password: Whatever...
         - name: additional
