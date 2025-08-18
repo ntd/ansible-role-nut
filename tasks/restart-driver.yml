@@ -18,7 +18,7 @@
     - nut-driver-enumerator.path
     - nut-driver-enumerator.service
   register: enumerator_services
-  failed_when: false
+  ignore_errors: true
 
 - name: "Manually enable per-driver services."
   ansible.builtin.service:
@@ -27,15 +27,15 @@
     enabled: true
   loop: "{{ nut_ups }}"
   register: manual_services
-  failed_when: false
-  when: enumerator_services.failed is defined
+  ignore_errors: true
+  when: enumerator_services is failed
 
 - name: "Enable bare nut-driver present in ancient NUT."
   ansible.builtin.service:
     name: nut-driver.service
     state: restarted
     enabled: true
-  when: enumerator_services.failed is defined and manual_services.failed is defined
+  when: enumerator_services is failed and manual_services is failed
 
 - name: "Enable driver target."
   ansible.builtin.service:
