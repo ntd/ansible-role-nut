@@ -106,3 +106,11 @@
       nut_ups_extra:
       nut_upsd_extra:
       nut_upsmon_extra:
+
+- name: Unexistent services should not stop the processing (deprecated).
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_packages: []
+      nut_services:
+        - unexistent-service
