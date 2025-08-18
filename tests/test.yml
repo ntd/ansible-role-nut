@@ -47,25 +47,72 @@
       nut_services:
         - nut-monitor
 
-- name: Stand-alone with multiple users and multiple UPS.
+- name: Typical configuration with UPS used for a clean shutdown.
   hosts: localhost
   roles:
     - role: ntd.nut
       nut_extra: |
         NUT_DEBUG_SYSLOG=stderr
       nut_users:
-        - name: monitor
-          password: Whatever...
-        - name: additional
-          password: WhoKnows...
+        - name: adminuser
+          password: adminpassword
           extra: |
-            upsmon primary
             instcmds = ALL
       nut_ups:
         - name: riello
           driver: riello_usb
           device: /dev/ttyUSB0
           description: iPlug 800
+      nut_upsmon_extra: |
+        NOTIFYFLAG ONBATT SYSLOG+WALL+EXEC
+        NOTIFYFLAG NOCOMM SYSLOG+WALL+EXEC
+      nut_upsmon_notifycmd: /usr/local/bin/mynotifycmdscript
+      nut_upsmon_notifycmd_content: |
+        #!/bin/bash
+        case $NOTIFYTYPE in
+            ONBATT)
+                logger "On battery: shutting down everything!"
+                upscmd -u adminuser -p adminpassword pc shutdown.return
+                # Ensure the previous command reached the UPS
+                sleep 1
+                # The `nut` user should be able to sudo without password
+                sudo systemctl -i --no-ask-password poweroff
+                ;;
+            NOCOMM)
+                logger "No communication: do something else..."
+                ;;
+        esac
+
+- name: Stand-alone with multiple users and multiple UPS.
+  hosts: localhost
+  roles:
+    - role: ntd.nut
+      nut_users:
+        - name: first
+          password: password1
+          role: primary
+        - name: second
+          password: password2
+          extra: |
+            role = admin
+            actions = set
+            actions = fsd
+        - name: third
+          password: password3
+          extra: |
+            instcmds = test.panel.start
+            instcmds = test.panel.stop
+      nut_ups:
+        - name: riello
+          driver: riello_usb
+          device: /dev/ttyUSB0
+          description: iPlug 800
+          extra: |
+            localcalculation
+        - name: big
+          driver: apcsmart
+          device: /dev/cua00
+          description: Somewhat complex UPS
           extra: |
             cable = 940-0095B
             sdtype = 2

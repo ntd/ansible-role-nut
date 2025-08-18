@@ -1,4 +1,6 @@
 # {{ ansible_managed }}
 
 MODE={{ nut_mode }}
-{% if nut_extra %}{{ nut_extra }}{% endif -%}
+{% if nut_extra %}
+{{ nut_extra }}
+{%- endif %}
